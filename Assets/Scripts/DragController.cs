@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class DragController : MonoBehaviour
 {
-    private bool IsDragActive = false;
-    private Vector2 ScreenPosition;
-    private Vector3 WorldPosition;
-    private Draggable LastDragged;
+    public Draggable LastDragged => _lastDragged;
+    private bool _isDragActive = false;
+    private Vector2 _screenPosition;
+    private Vector3 _worldPosition;
+    private Draggable _lastDragged;
 
     private void Awake()
     {
@@ -21,7 +22,7 @@ public class DragController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (IsDragActive && (Input.GetMouseButtonDown(0) || (Input.GetTouch(0).phase == TouchPhase.Ended)))
+        if (_isDragActive && (Input.GetMouseButtonDown(0) || (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Ended)))
         {
             Drop();
             return;
@@ -31,32 +32,32 @@ public class DragController : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             Vector3 mousePos = Input.mousePosition;
-            ScreenPosition = new Vector2(mousePos.x, mousePos.y);
+            _screenPosition = new Vector2(mousePos.x, mousePos.y);
         }
         else if (Input.touchCount > 0)
         {
-            ScreenPosition = Input.GetTouch(0).position;
+            _screenPosition = Input.GetTouch(0).position;
         }
         else
         {
             return;
         }
 
-        WorldPosition = Camera.main.ScreenToWorldPoint(ScreenPosition);
+        _worldPosition = Camera.main.ScreenToWorldPoint(_screenPosition);
 
-        if (IsDragActive)
+        if (_isDragActive)
         {
             Drag();
         }
         else
         {
-            RaycastHit2D hit = Physics2D.Raycast(WorldPosition, Vector2.zero);
+            RaycastHit2D hit = Physics2D.Raycast(_worldPosition, Vector2.zero);
             if (hit.collider != null)
             {
                 Draggable draggable = hit.transform.gameObject.GetComponent<Draggable>();
                 if (draggable != null)
                 {
-                    LastDragged = draggable;
+                    _lastDragged = draggable;
                     InitDrag();
                 }
             }
@@ -65,16 +66,23 @@ public class DragController : MonoBehaviour
 
     private void InitDrag()
     {
-        IsDragActive = true;
+        UpdateDragStatus(true);
     }
 
     private void Drag()
     {
-        LastDragged.transform.position = new Vector2(WorldPosition.x, WorldPosition.y);
+        _lastDragged.transform.position = new Vector2(_worldPosition.x, _worldPosition.y);
     }
 
     private void Drop()
     {
-        IsDragActive = false;
+        _lastDragged.dragEndedCallback(_lastDragged);
+        UpdateDragStatus(false);
+    }
+
+    private void UpdateDragStatus(bool IsDragging)
+    {
+        _isDragActive = _lastDragged.IsDragging = IsDragging;
+        _lastDragged.gameObject.layer = IsDragging ? Layer.Dragging : Layer.Default;
     }
 }
