@@ -73,6 +73,18 @@ public class CarouselController : MonoBehaviour
 
     public Sprite[] imageContainer;
 
+    public Sprite[] imageContainerActive;
+
+    public bool active = true;
+
+    public GameObject carouselMarkers;
+
+    public Sprite inactiveMarker;
+    public Sprite activeMarker;
+
+    int counter = 0;
+
+
   public void StartDrag()
   {
     //Debug.Log("StartDrag");
@@ -144,6 +156,8 @@ public class CarouselController : MonoBehaviour
     LoadCells();
     // Setup cells with high speed so they appear to be instant movement
     SetupCells(true);
+
+        CellController.onButtonHit += UpdateCircle;
   }
 
   void OnDisable()
@@ -225,13 +239,22 @@ public class CarouselController : MonoBehaviour
     if (cc == null)
       return;
     cc._index = index;
-        cc.targetImage = imageContainer[index];
 
-       
+        if(active == false)
+        {
+            cc.targetImage = imageContainer[index];
+        }
+
+        else
+        {
+            cc.targetImage = imageContainerActive[index];
+        }
+
     cc.name = "" + cc._index;
     if (_shouldUpdateDesc)
       cc.UpdateDesc("btn " + cc._index);
     cc.Clicked += OnCellBtnCallback;
+
 
   }
 
@@ -370,7 +393,29 @@ public class CarouselController : MonoBehaviour
     _scroll.velocity = Vector3.zero;
     m_centerCellIndex = m_selectIndex;
     m_dragStartPos = _panel.position;
+
+        
+        
   }
+
+    void UpdateCircle(int index)
+    {
+       if(counter == 0)
+        {
+            index = 4;
+            counter++;
+        }
+
+        foreach (var x in carouselMarkers.GetComponentsInChildren<Image>())
+        {
+            x.sprite = inactiveMarker;
+
+        }
+
+        index = 4 - index;
+
+        carouselMarkers.transform.GetChild(index).GetComponent<Image>().sprite = activeMarker;
+    }
 
   void FindCenterCellIndex()
   {

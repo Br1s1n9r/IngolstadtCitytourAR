@@ -20,11 +20,17 @@ public class CellController : MonoBehaviour
     public Sprite targetImage;
     Image buttonImage;
 
-  public void UpdateDesc(string desc)
+    private bool clicked = false;
+    public delegate void OnButtonHit(int _index);
+    public static OnButtonHit onButtonHit;
+
+
+
+    public void UpdateDesc(string desc)
   {
     if (_desc == null)
       return;
-    _desc.text = desc;
+    _desc.text = "";
         gameObject.GetComponentInParent<Image>().sprite = targetImage;
         
   }
@@ -32,5 +38,17 @@ public class CellController : MonoBehaviour
   public void OnBtnDown()
   {
     Clicked?.Invoke(this, new CellEventArgs(_index));
+
+        if(onButtonHit != null)
+        {
+          if (clicked == true)
+          {
+            onButtonHit(_index);
+          }
+          
+          clicked = !clicked;
+        }
+          
+        
   }
 }
