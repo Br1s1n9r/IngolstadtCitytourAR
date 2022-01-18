@@ -10,9 +10,8 @@ public class SceneChanger : MonoBehaviour
     {
         CellController.onButtonHit += ChangeScene;
     }
-    
-    public void LoadSceneXDApp() {  
-        SceneManager.LoadScene("XD_App");  
+    public void LoadSceneTouristMainApp() {  
+        SceneManager.LoadScene("Tourist_App_Main");  
     }
 
     // Abfrage fürs Caroussel
@@ -20,12 +19,21 @@ public class SceneChanger : MonoBehaviour
     {
         if (index == 1)
         {
-            SceneManager.LoadScene("IlluminatiDoor_Puzzle");
+            SceneManager.LoadScene("Stop_IlluminatiDoor_Puzzle");
         }
 
         if (index == 2)
         {
-            SceneManager.LoadScene("Scenes/Frankenstein");
+            SceneManager.LoadScene("Stop_Frankenstein");
         }
     }
+    
+    public void LoadSceneGuideStart() {  
+        SceneManager.LoadScene("Guide_Start");  
+    }
+    
+    public void LoadSceneGuideMain() {  
+        SceneManager.LoadScene("Guide_App_Main");  
+    }
+    
 }
