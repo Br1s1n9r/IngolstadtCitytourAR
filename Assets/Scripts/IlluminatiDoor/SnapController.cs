@@ -39,6 +39,15 @@ public class SnapController : MonoBehaviour
         {
             draggable.transform.localPosition = closestSnapPoint.localPosition;
         }
+
+        if (draggable.transform.localPosition == draggable.destinationSocket.localPosition)
+        {
+            draggable.GetComponent<SpriteRenderer>().color = Color.green;
+        }
+        else
+        {
+            draggable.GetComponent<SpriteRenderer>().color = Color.red;
+        }
         
         CheckPuzzle(closestSnapPoint);
     }
