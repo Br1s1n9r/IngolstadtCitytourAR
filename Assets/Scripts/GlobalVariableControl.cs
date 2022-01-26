@@ -21,7 +21,11 @@ public class GlobalVariableControl : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        GameObject.FindGameObjectWithTag("Username").gameObject.GetComponent<Text>().text = GlobalVariableControl.Instance.username;
+        GameObject[] UsernameGos = GameObject.FindGameObjectsWithTag("Username");
+        foreach (var go in UsernameGos)
+        {
+            go.gameObject.GetComponent<Text>().text = GlobalVariableControl.Instance.username;
+        }
     }
 
     public string username;
@@ -40,7 +44,5 @@ public class GlobalVariableControl : MonoBehaviour
         {
             GlobalVariableControl.Instance.username = UsernameInput.text;
         }
-
-        Debug.Log("Username is: " + username);
     }
 }
