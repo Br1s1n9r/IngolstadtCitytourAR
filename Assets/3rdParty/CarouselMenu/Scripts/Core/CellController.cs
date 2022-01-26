@@ -43,6 +43,7 @@ public class CellController : MonoBehaviour
         {
             if (clicked == true)
             {
+                Debug.Log("Clicky");
                 onButtonHit(_index);
             }
 

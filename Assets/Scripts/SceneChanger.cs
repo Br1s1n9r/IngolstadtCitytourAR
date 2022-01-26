@@ -17,14 +17,20 @@ public class SceneChanger : MonoBehaviour
     // Abfrage fürs Caroussel
     public void ChangeScene(int index)
     {
+        Debug.Log("Hitty");
         if (index == 1)
         {
             SceneManager.LoadScene("Stop_IlluminatiDoor_Puzzle");
         }
 
-        if (index == 2)
+        if (index == 3)
         {
             SceneManager.LoadScene("Stop_Frankenstein");
+        }
+
+        if (index == 4)
+        {
+            SceneManager.LoadScene("Stop_HorsedrawnTram");
         }
     }
     

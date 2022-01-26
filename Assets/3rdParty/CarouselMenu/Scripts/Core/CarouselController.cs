@@ -419,14 +419,14 @@ public class CarouselController : MonoBehaviour
             counter++;
         }
 
-        foreach (var x in carouselMarkers.GetComponentsInChildren<Image>())
+       /* foreach (var x in carouselMarkers.GetComponentsInChildren<Image>())
         {
             x.sprite = inactiveMarker;
         }
 
         index = 4 - index;
 
-        carouselMarkers.transform.GetChild(index).GetComponent<Image>().sprite = activeMarker;
+        carouselMarkers.transform.GetChild(index).GetComponent<Image>().sprite = activeMarker;*/
     }
 
     void FindCenterCellIndex()
