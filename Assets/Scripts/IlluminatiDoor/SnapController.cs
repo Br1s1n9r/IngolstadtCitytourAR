@@ -8,6 +8,7 @@ public class SnapController : MonoBehaviour
     public List<Draggable> draggableObjects;
     public float snapRange = 0.5f;
     public Animator YearAnimator;
+    public GameObject YearInput;
     
     
     // Start is called before the first frame update
@@ -66,7 +67,12 @@ public class SnapController : MonoBehaviour
 
         if (isPuzzleCorrect)
         {
+            foreach (var draggable in draggableObjects)
+            {
+                draggable.GetComponent<SpriteRenderer>().color = Color.white;
+            }
             YearAnimator.enabled = true;
+            YearInput.SetActive(true);
         }
     }
 }
